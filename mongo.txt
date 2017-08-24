@@ -86,7 +86,7 @@ db.orders.update({_id : ObjectId("599eff9679be506beffa9771")},{$push:{lineItems:
 db.orders.update({_id : ObjectId("599eff9779be506beffa9772")},{$set:{'lineItems.0.productName':'transistor radio'}});
 
 //Find orders with lineItems that have a quantity that is less than 10, but greater than 2. You will have to research $and
-db.orders.find({$and:[{'lineItems.unitPrice':{$lt:10}},{'lineItems.unitPrice':{$gt:2}}]});
+db.orders.find({$and:[{'lineItems.quantity':{$lt:10}},{'lineItems.quantity':{$gt:2}}]});
 
 
 
