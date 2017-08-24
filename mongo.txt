@@ -1,0 +1,92 @@
+//create a collection names orders
+db.createCollections('orders);
+
+//Insert at least 3 documents that represent orders. 
+ 
+ db.orders.insert({orderDate: new Date ('2017-02-03'),orderTotal: 170.54, lineItems: [{unitPrice: 14.99, quantity: 2, productName:'Notebooks'}]}); 
+
+db.orders.insert({orderDate: new Date ('2017-04-04'),orderTotal: 25.50, lineItems: [{unitPrice: 12.75, quantity: 2, productName:'cotton t-shirt'}]}); 
+
+db.orders.insert({orderDate: new Date ('2017-01-02'),orderTotal: 69.98, lineItems: [{unitPrice: 34.99, quantity: 2, productName:'coffee maker'}]});
+
+//Find all orders and make them look pretty.
+db.orders.find().pretty();
+{
+	"_id" : ObjectId("599ef7ca4a998e000ed90fb7"),
+	"orderDate" : ISODate("2017-02-03T00:00:00Z"),
+	"orderTotal" : 170.54,
+	"lineItems" : [
+		{
+			"unitPrice" : 14.99,
+			"quantity" : 2,
+			"productName" : "Notebooks"
+		}
+	]
+}
+{
+	"_id" : ObjectId("599efa994a998e000ed90fba"),
+	"orderDate" : ISODate("2017-04-04T00:00:00Z"),
+	"orderTotal" : 25.5,
+	"lineItems" : [
+		{
+			"unitPrice" : 12.75,
+			"quantity" : 2,
+			"productName" : "cotton t-shirt"
+		}
+	]
+}
+{
+	"_id" : ObjectId("599efbe44a998e000ed90fbb"),
+	"orderDate" : ISODate("2017-01-02T00:00:00Z"),
+	"orderTotal" : 69.98,
+	"lineItems" : [
+		{
+			"unitPrice" : 34.99,
+			"quantity" : 2,
+			"productName" : "coffee maker"
+		}
+	]
+}
+
+//Find all orders with an orderDate that is after 1/31/2017.
+db.orders.find({orderDate:{$gt:ISODate("2017-01-31")}}).pretty();
+{
+	"_id" : ObjectId("599eff9679be506beffa9770"),
+	"orderDate" : ISODate("2017-02-03T00:00:00Z"),
+	"orderTotal" : 170.54,
+	"lineItems" : [
+		{
+			"unitPrice" : 14.99,
+			"quantity" : 2,
+			"productName" : "Notebooks"
+		}
+	]
+}
+{
+	"_id" : ObjectId("599eff9679be506beffa9771"),
+	"orderDate" : ISODate("2017-04-04T00:00:00Z"),
+	"orderTotal" : 25.5,
+	"lineItems" : [
+		{
+			"unitPrice" : 12.75,
+			"quantity" : 2,
+			"productName" : "cotton t-shirt"
+		}
+	]
+}
+
+//Change the orderTotal from 2/3/2017 to 63 dollars (you do NOT have to ensure the lineItems' unitPrice * quantity add up to the orderTotal)
+
+db.orders.update({'_id' : ObjectId("599eff9679be506beffa9770")},{$set:{orderTotal:63}});
+
+//Add another lineItem to the order from 4/4/2017
+db.orders.update({_id : ObjectId("599eff9679be506beffa9771")},{$push:{lineItems:{unitPrice:2.00, quantity:1, productName:'gum'}}});
+
+//Change the first lineItem in the order from 1/2/2017 to be for 2 'transistor radio's
+db.orders.update({_id : ObjectId("599eff9779be506beffa9772")},{$set:{'lineItems.0.productName':'transistor radio'}});
+
+//Find orders with lineItems that have a quantity that is less than 10, but greater than 2. You will have to research $and
+db.orders.find({$and:[{'lineItems.unitPrice':{$lt:10}},{'lineItems.unitPrice':{$gt:2}}]});
+
+
+
